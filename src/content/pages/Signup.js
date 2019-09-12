@@ -10,20 +10,19 @@ class Signup extends React.Component {
     lastname: '',
     email: '',
     password: '',
-    profileUrl: ''
+    profileUrl: '',
+    message: ''
   }
 
   storeInput = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value, message: '' })
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Submitted!', this.state, SERVER_URL)
     // Send the user sign up data to the server
     axios.post(`${SERVER_URL}/auth/signup`, this.state)
     .then(response => {
-      console.log('SUCCESS', response)
       // Store Token in localStorage
       localStorage.setItem('mernToken', response.data.token)
 
@@ -31,7 +30,9 @@ class Signup extends React.Component {
       this.props.updateUser()
     })
     .catch(err => {
-      console.log('ERROR', err.response.data.message)
+      this.setState({
+        message: `${err.response.status}: ${err.response.data.message}`
+      })
     })
   }
 
@@ -43,6 +44,7 @@ class Signup extends React.Component {
     return (
       <div>
         <h2>Signup</h2>
+        <span className="red">{this.state.message}</span>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label>First Name:</label>
