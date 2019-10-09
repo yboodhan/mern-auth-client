@@ -15,11 +15,8 @@ class Login extends React.Component {
     e.preventDefault()
     axios.post(`${SERVER_URL}/auth/login`, this.state)
     .then(response => {
-      // Store Token in localStorage
-      localStorage.setItem('mernToken', response.data.token)
-
       // Update App with user info
-      this.props.updateUser()
+      this.props.updateUser(response.data.token)
     })
     .catch(err => {
       this.setState({
