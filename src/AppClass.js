@@ -1,5 +1,5 @@
 // Import packages
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 
@@ -10,28 +10,25 @@ import Footer from './nav/Footer'
 import Header from './nav/Header'
 import Nav from './nav/Nav'
 
-const App = props => {
-  // Declare state variables
-  let [user, setUser] = useState(null)
+class App extends React.Component {
+  state = {
+    user: null
+  }
 
-  // Define an onload action to look for token
-  useEffect(() => {
-    decodeToken()
-  }, [])
+  componentDidMount() {
+    // Go look for a token
+    this.decodeToken()
+  }
 
-  // Helper functions
-  const updateUser = newToken => {
+  updateUser = (newToken) => {
     if (newToken) {
       // Store Token in localStorage
       localStorage.setItem('mernToken', newToken)
-      decodeToken(newToken)
-    }
-    else {
-      setUser(null)
+      this.decodeToken(newToken)
     }
   }
 
-  const decodeToken = existingToken => {
+  decodeToken = (existingToken) => {
     let token = existingToken || localStorage.getItem('mernToken')
 
     if (token) {
@@ -40,27 +37,29 @@ const App = props => {
       // If token is expired or not decodable, user is not logged in
       if (!decoded || Date.now() >= decoded.exp * 1000) {
         console.log('expired!')
-        setUser(null)
+        this.setState({ user: null })
       }
       else {
-        setUser(decoded)
+        this.setState({ user: decoded })
       }
     }
     else {
-      setUser(null)
+      this.setState({ user: null })
     }
   }
 
-  return (
-    <Router>
-      <div className="App">
-        <Nav updateUser={updateUser} user={user} />
-        <Header />
-        <Content updateUser={updateUser} user={user} />
-        <Footer />
-      </div>
-    </Router>
-  )
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <Nav updateUser={this.updateUser} user={this.state.user} />
+          <Header />
+          <Content updateUser={this.updateUser} user={this.state.user} />
+          <Footer />
+        </div>
+      </Router>
+    );
+  }
 }
 
-export default App
+export default App;
