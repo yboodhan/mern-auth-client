@@ -1,8 +1,5 @@
 // Packages
-// import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
-import SERVER_URL from '../../constants'
+import React, { useState } from 'react'
 
 const Login = props => {
   // Declare and initialize state variables
@@ -10,44 +7,10 @@ const Login = props => {
   let [message, setMessage] = useState('')
   let [password, setPassword] = useState('')
 
-  // Effect hook
-  useEffect(() => {
-    setMessage('')
-  }, [email, password])
-
   // Event handlers
   const handleSubmit = e => {
     e.preventDefault()
-    fetch(`${SERVER_URL}/auth/login`, {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => {
-      if (!response.ok) {
-        setMessage(`${response.status}: ${response.statusText}`)
-        return
-      }
-
-      response.json().then(result => {
-        // console.log(result)
-        // Update App with user info
-        props.updateUser(result.token)
-      })
-    })
-    .catch(err => {
-      console.log(err)
-      setMessage(`${err.toString()}`)
-    })
-  }
-
-  if (props.user) {
-    return <Redirect to="/profile" />
+    // TODO: Fetch call to POST data
   }
 
   return (
