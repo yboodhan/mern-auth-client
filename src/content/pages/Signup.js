@@ -1,7 +1,6 @@
 // Packages
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import SERVER_URL from '../../constants'
 
 const Signup = props => {
   // Declare and initialize state variables
@@ -20,7 +19,7 @@ const Signup = props => {
   const handleSubmit = e => {
     e.preventDefault()
     // Send the user sign up data to the server
-    fetch(`${SERVER_URL}/auth/signup`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, {
       method: 'POST',
       body: JSON.stringify({
         firstname,

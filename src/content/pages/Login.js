@@ -2,7 +2,6 @@
 // import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import SERVER_URL from '../../constants'
 
 const Login = props => {
   // Declare and initialize state variables
@@ -18,7 +17,7 @@ const Login = props => {
   // Event handlers
   const handleSubmit = e => {
     e.preventDefault()
-    fetch(`${SERVER_URL}/auth/login`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
       method: 'POST',
       body: JSON.stringify({
         email,
