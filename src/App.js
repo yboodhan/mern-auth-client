@@ -1,5 +1,5 @@
 // Import packages
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom'
 
 // Resources and custom components
@@ -12,6 +12,21 @@ import Nav from './nav/Nav'
 const App = props => {
   // Declare state variables
   let [user, setUser] = useState(null)
+
+  // Define any onload actions (e.g., to look for the token)
+  useEffect(() => {
+    console.log('check for token')
+  }, [])
+
+  // Helper function to update the user
+  const updateUser = (newToken) => {
+    if (newToken) {
+      // Save the token and update the user with the token's info
+      
+    }
+  }
+
+  // Helper function to decode existing tokens
 
   return (
     <Router>
