@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 
+
 const Login = props => {
   // Declare and initialize state variables
   let [email, setEmail] = useState('')
@@ -17,7 +18,7 @@ const Login = props => {
   const handleSubmit = e => {
     e.preventDefault()
     // Fetch call to POST data
-    fetch(`http://localhost:3000/auth/login`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
       method: 'POST',
       body: JSON.stringify({
         email,

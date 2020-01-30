@@ -1,6 +1,7 @@
 // Import packages
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom'
+import jwtDecode from 'jwt-decode'
 
 // Resources and custom components
 import './App.css';
@@ -9,7 +10,7 @@ import Footer from './nav/Footer'
 import Header from './nav/Header'
 import Nav from './nav/Nav'
 
-const App = props => {
+const App = () => {
   // Declare state variables
   let [user, setUser] = useState(null)
 
@@ -36,7 +37,22 @@ const App = props => {
     let token = existingToken || localStorage.getItem('userToken')
 
     console.log('The token is:', token) // If null, no user logged in
-    // TODO: Decode token
+    // Decode token
+    if (token) {
+      let decoded = jwtDecode(token)
+
+      // If the token cannot be decoded or it is expired, NO USER!
+      if (!decoded || Date.now() > decoded.exp * 1000) {
+        console.log('Expired or bad token.')
+        setUser(null)
+      } else {
+        // This is the user data
+        console.log('Good token')
+        setUser(decoded)
+      }
+    } else {
+      setUser(null)
+    }
   }
 
   return (
